@@ -29,6 +29,31 @@ function findReferenceDefiniton(visited: Array<VisitedDefinition>, definitionPar
     return visited.find((def) => def.parts === definitionParts);
 }
 
+const NODE_SOAP_PARSED_TYPES: { [type: string]: string } = {
+    int: "number",
+    integer: "number",
+    short: "number",
+    long: "number",
+    double: "number",
+    float: "number",
+    decimal: "number",
+    bool: "boolean",
+    boolean: "boolean",
+    dateTime: "Date",
+    date: "Date",
+    "xs:int": "number",
+    "xs:integer": "number",
+    "xs:short": "number",
+    "xs:long": "number",
+    "xs:double": "number",
+    "xs:float": "number",
+    "xs:decimal": "number",
+    "xs:bool": "boolean",
+    "xs:boolean": "boolean",
+    "xs:dateTime": "Date",
+    "xs:date": "Date",
+};
+
 /**
  * parse definition
  * @param parsedWsdl context of parsed wsdl
@@ -95,7 +120,7 @@ function parseDefinition(
                             name: stripedPropName,
                             sourceName: propName,
                             description: type,
-                            type: "string",
+                            type: NODE_SOAP_PARSED_TYPES[type] || "string",
                             isArray: true,
                         });
                     } else if (type instanceof ComplexTypeElement) {
@@ -155,7 +180,7 @@ function parseDefinition(
                             name: propName,
                             sourceName: propName,
                             description: type,
-                            type: "string",
+                            type: NODE_SOAP_PARSED_TYPES[type] || "string",
                             isArray: false,
                         });
                     } else if (type instanceof ComplexTypeElement) {

@@ -60,7 +60,7 @@ function createProperty(
         kind: StructureKind.PropertySignature,
         name: sanitizePropName(name),
         docs: [doc],
-        hasQuestionToken: true,
+        hasQuestionToken: optional,
         type: isArray ? `Array<${type}>` : type,
     };
 }
